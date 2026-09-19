@@ -1,21 +1,41 @@
 # Layer-Adaptive XMSSMT Parameterization on Raspberry Pi 5
 
-This repository contains the processed data, analysis scripts, supplementary material, figures, and reproducibility artifacts associated with the manuscript:
+Reproducibility materials for the manuscript:
 
 **Layer-Adaptive XMSSMT Parameterization: A Multi-Objective Study of WOTS Placement, Tree-Height Allocation, and Serialized State**
 
-## Authors
+Author: Sohaib Rana  
+Affiliation: Universiti Sains Malaysia, Penang, Malaysia
 
-- Sohaib Rana
-- Mohd Najwadi Yusoff
-- Je Sen Teh
-- Adnan Anwar
-
-## Overview
+## Study scope
 
 This study evaluates layer-adaptive parameterization of a two-layer XMSSMT FAST/BDS implementation.
 
-The experimental design combines five tree-height allocations:
+The total XMSSMT tree height is fixed at:
+
+- H = 20
+- d = 2
+
+### WOTS placement block
+
+Four ordered WOTS+ allocations are evaluated:
+
+- (16,16)
+- (4,16)
+- (16,4)
+- (4,4)
+
+The configurations are used to evaluate the effect of layer-specific Winternitz placement on:
+
+- key-generation latency
+- signing latency
+- verification latency
+- signature size
+- serialized secret-key size
+
+### Tree-height allocation block
+
+Five ordered layer-height allocations are evaluated:
 
 - (10,10)
 - (8,12)
@@ -23,39 +43,110 @@ The experimental design combines five tree-height allocations:
 - (6,14)
 - (14,6)
 
-and four ordered WOTS allocations:
+All allocations satisfy:
 
-- (16,16)
-- (4,16)
-- (16,4)
-- (4,4)
+- h0 + h1 = 20
 
-This produces a 20-configuration empirical design space.
+### Joint parameter space
 
-The evaluated configurations are experimental implementation-level parameterizations and are not standardized XMSSMT parameter sets or standardized OIDs.
+The five height allocations are combined with the four ordered WOTS+ allocations, producing a 20-configuration empirical design space.
 
-## Experimental platform
+The evaluated heterogeneous configurations are experimental implementation-level parameterizations.
 
-- Raspberry Pi 5 Model B Rev 1.1
-- ARM Cortex-A76 / AArch64
-- Debian 13
+They are not standardized XMSSMT parameter sets and are not assigned standardized OIDs.
+
+## Platform
+
+Measurements were collected on:
+
+- Raspberry Pi 5 Model B Rev. 1.1
+- Broadcom BCM2712
+- quad-core Arm Cortex-A76
+- AArch64
+- approximately 8 GB RAM
+- Debian GNU/Linux 13 (trixie)
 - GCC 14.2.0
-- CPU governor: performance
-- CPU affinity: logical CPU 3
-- Timer: CLOCK_MONOTONIC_RAW
-- FAST/BDS XMSSMT implementation
+- performance CPU-frequency governor
+- benchmark process pinned to CPU 3
+- CLOCK_MONOTONIC_RAW timing source
+- boost disabled during controlled benchmarking
 
 Standard benchmark protocol:
 
 - 10 key generations
 - 100 signatures
 - 100 verifications
+- 3 warm-up key generations
+- 100 warm-up signatures
 
-## Main findings
+## Repository structure
 
-For configurations with identical 7075-byte signatures, lower-layer placement of w=4 reduced mean signing latency by 40.83% to 45.09% relative to upper-layer placement.
+- `analysis/` - publication-level analysis scripts
+- `data/processed/` - normalized operation-level and summary datasets
+- `data/provenance/` - source mapping and normalization provenance
+- `build_metadata/` - build, platform, and source-provenance records
+- `figures/` - publication figures
+- `integrity/` - analysis closure and integrity records
+- `manifests/` - SHA-256 manifests
+- `manuscript/` - reference manuscript PDF
+- `source_xmssmt/` - validated XMSSMT source modifications
+- `supplementary/` - manuscript supplementary material
+- `docs/` - reproducibility documentation
+- `releases/` - frozen reproducibility releases
 
-The corresponding serialized secret-key reduction was 2112 bytes for every tested height allocation.
+## Source provenance
+
+### Heterogeneous XMSSMT source
+
+Validated modified source files are provided under:
+
+`source_xmssmt/heterogeneous/`
+
+The source snapshot contains:
+
+- `params.h`
+- `params.c`
+- `xmss_core_fast.c`
+- `xmss_commons.c`
+- `LICENSE`
+- `README.md`
+- `SHA256_SOURCE_MANIFEST.txt`
+
+The four modified C/H files were copied from the validated correctness freeze:
+
+`08_height_heterogeneity/FINAL_CORRECTNESS_FREEZE/source_snapshot`
+
+Their SHA-256 values were independently verified before inclusion in this repository.
+
+### Experimental modifications
+
+The implementation supports:
+
+- independent per-layer XMSSMT tree heights
+- independent per-layer WOTS+ Winternitz parameters
+- asymmetric FAST/BDS traversal-state handling
+- serialized secret-key state accounting
+- lower-layer rollover validation
+
+For the two-layer FAST implementation, serialized BDS state contains:
+
+- current state for layer 0
+- current state for layer 1
+- next state for layer 0
+
+No next-state structure is required for the top layer.
+
+## Main empirical findings
+
+For configurations with identical 7075-byte signatures, placing w=4 in the lower layer rather than the upper layer reduced mean signing latency by approximately:
+
+- 40.83% to 45.09%
+
+The same placement reduced serialized secret-key state by:
+
+- 2112 bytes
+
+for every tested height allocation.
 
 Relative to the balanced (10,10) allocation, serialized state changed by:
 
@@ -64,36 +155,85 @@ Relative to the balanced (10,10) allocation, serialized state changed by:
 - (6,14): -480 B
 - (14,6): +480 B
 
-The five-objective empirical Pareto analysis identified 13 nondominated configurations among the 20 evaluated configurations.
+The five-objective empirical Pareto analysis identified:
 
-## Repository structure
+- 13 nondominated configurations
+- 7 dominated configurations
 
-- `data/processed/` - processed benchmark and analysis datasets
-- `data/provenance/` - source mapping and normalization provenance
-- `analysis/` - scripts used for normalization and analysis
-- `supplementary/` - LaTeX result and supplementary tables
-- `figures/` - publication figures
-- `manuscript/` - reference manuscript PDF
-- `integrity/` - SHA-256 manifests and closure records
+among the 20 evaluated configurations.
 
 ## Methodological note
 
-The combined 20-configuration analysis reuses measurements from frozen HEIGHT, WOTS, and JOINT experimental phases. It should therefore be interpreted as an empirical comparison and multi-objective analysis of frozen datasets rather than as a single-session matched full-factorial experiment.
+The combined 20-configuration analysis reuses measurements from frozen HEIGHT, WOTS, and JOINT experimental phases.
 
-## Data availability
+It should therefore be interpreted as an empirical comparison and multi-objective analysis of frozen datasets rather than as a single-session matched full-factorial experiment.
 
-Processed benchmark datasets and analysis artifacts supporting the reported results are included in this repository.
+## Experimental integrity
 
-## Code availability
+This repository is a derived reproducibility copy created from frozen experimental artifacts.
 
-The analysis scripts used to generate the reported results are included in the `analysis/` directory.
+The authoritative benchmark, correctness, source, and analysis freeze directories were not modified during preparation of this repository.
+
+The Stage 7L joint-analysis freeze passed SHA-256 integrity verification.
+
+Stage 7L manifest SHA-256:
+
+`9a4e19dff91be39cfdff5b5cb0a163d6c90b2b625f5ff603b7a00d3f749ae07a`
+
+## Licensing
+
+The repository contains source code and research artifacts with potentially different licensing and attribution requirements.
+
+The original source license is preserved under:
+
+`source_xmssmt/heterogeneous/LICENSE`
+
+See `LICENSES.md` for repository-level licensing and attribution information.
 
 ## Citation
 
-Citation information will be updated when the associated manuscript receives a DOI.
+Citation metadata are provided in:
 
-## Integrity
+`CITATION.cff`
 
-The frozen Stage 7L analysis manifest has SHA-256:
+Repository:
 
-`9a4e19dff91be39cfdff5b5cb0a163d6c90b2b625f5ff603b7a00d3f749ae07a`
+https://github.com/sohaibrana1/xmssmt-layer-adaptive-rpi5
+
+## Supplementary material
+
+The journal supplementary package contains:
+
+- processed operation-level benchmark data
+- summary datasets
+- Pareto-analysis outputs
+- WOTS-placement analysis
+- tree-height allocation analysis
+- normalization provenance
+- analysis scripts
+- SHA-256 integrity records
+
+## Data archive
+
+A permanent archival DOI will be added after creation of the frozen public reproducibility release.
+
+Until then, this GitHub repository serves as the reproducibility repository associated with the manuscript.
+
+## Release
+
+The first frozen public reproducibility release will be tagged:
+
+`v1.0.0`
+
+The release will contain:
+
+- validated heterogeneous XMSSMT source
+- processed benchmark datasets
+- analysis scripts
+- provenance records
+- publication figures
+- supplementary material
+- SHA-256 integrity manifests
+- reproducibility documentation
+
+The corresponding Zenodo DOI will be added after archival.
