@@ -1,0 +1,30 @@
+
+\begin{table}[t]
+\centering
+\caption{Empirical Pareto frontier obtained by jointly minimizing key-generation latency, signing latency, verification latency, signature size, and serialized secret-key size. Thirteen of the 20 evaluated configurations are nondominated.}
+\label{tab:pareto}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Configuration &
+$h_0$ & $h_1$ & $w_0$ & $w_1$ &
+KeyGen (ms) & Sign (ms) & Verify (ms) &
+Sig. (B) & SK (B) \\
+\midrule
+\nolinkurl{H10-10_W16-16} & 10 & 10 & 16 & 16 & 4888.614 & 11.029 & 2.611 & 4963 & 5998 \\
+\nolinkurl{H10-10_W16-4} & 10 & 10 & 16 & 4 & 3820.982 & 7.830 & 2.143 & 7075 & 8110 \\
+\nolinkurl{H10-10_W4-16} & 10 & 10 & 4 & 16 & 3829.627 & 4.302 & 2.136 & 7075 & 5998 \\
+\nolinkurl{H10-10_W4-4} & 10 & 10 & 4 & 4 & 2756.037 & 4.306 & 1.700 & 9187 & 8110 \\
+\nolinkurl{H12-8_W16-16} & 12 & 8 & 16 & 16 & 10411.905 & 11.165 & 2.600 & 4963 & 6238 \\
+\nolinkurl{H12-8_W4-4} & 12 & 8 & 4 & 4 & 5827.106 & 6.165 & 1.696 & 9187 & 8350 \\
+\nolinkurl{H14-6_W4-16} & 14 & 6 & 4 & 16 & 22103.821 & 6.230 & 2.031 & 7075 & 6478 \\
+\nolinkurl{H6-14_W16-16} & 6 & 14 & 16 & 16 & 39277.915 & 8.868 & 2.701 & 4963 & 5518 \\
+\nolinkurl{H6-14_W4-16} & 6 & 14 & 4 & 16 & 39239.670 & 4.744 & 2.174 & 7075 & 5518 \\
+\nolinkurl{H6-14_W4-4} & 6 & 14 & 4 & 4 & 22051.039 & 4.736 & 1.639 & 9187 & 7630 \\
+\nolinkurl{H8-12_W16-16} & 8 & 12 & 16 & 16 & 11501.286 & 12.068 & 2.822 & 4963 & 5758 \\
+\nolinkurl{H8-12_W4-16} & 8 & 12 & 4 & 16 & 11193.323 & 6.665 & 2.234 & 7075 & 5758 \\
+\nolinkurl{H8-12_W4-4} & 8 & 12 & 4 & 4 & 5840.800 & 6.030 & 1.645 & 9187 & 7870 \\
+\bottomrule
+\end{tabular}
+\end{table}

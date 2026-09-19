@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use these data or scripts, please cite the associated manuscript."
+title: "Layer-Adaptive XMSSMT Parameterization: Data and Reproducibility Artifacts"
+type: dataset
+authors:
+  - family-names: "Rana"
+    given-names: "Sohaib"
+  - family-names: "Yusoff"
+    given-names: "Mohd Najwadi"
+  - family-names: "Teh"
+    given-names: "Je Sen"
+  - family-names: "Anwar"
+    given-names: "Adnan"
+date-released: 2026-09-19
+keywords:
+  - "XMSSMT"
+  - "XMSS"
+  - "hash-based signatures"
+  - "post-quantum cryptography"
+  - "WOTS+"
+  - "Raspberry Pi 5"
+  - "cryptographic engineering"

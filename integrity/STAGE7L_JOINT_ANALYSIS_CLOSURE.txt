@@ -1,0 +1,58 @@
+STAGE7L_JOINT_ANALYSIS_CLOSURE
+
+Joint heterogeneous XMSSMT parameter analysis completed.
+
+Design:
+- total height h = 20
+- d = 2 layers
+- height splits:
+  (10,10), (8,12), (12,8), (6,14), (14,6)
+- WOTS pairs:
+  (16,16), (4,16), (16,4), (4,4)
+
+Dataset:
+- 20 unique configurations
+- 10 key-generation measurements per configuration
+- 100 signing measurements per configuration
+- 100 verification measurements per configuration
+- 4200 normalized operation rows
+- all verification measurements passed
+
+Source composition:
+- HEIGHT = 5 configurations
+- WOTS = 3 configurations
+- JOINT = 12 configurations
+
+Pareto objectives, all minimized:
+- key-generation mean latency
+- signing mean latency
+- verification mean latency
+- signature size
+- serialized secret-key size
+
+Pareto result:
+- nondominated configurations = 13
+- dominated configurations = 7
+
+WOTS-placement result:
+- lower-layer w=4 reduced signing latency versus upper-layer w=4
+  by approximately 40.8% to 45.1% across the five height splits
+- both placements have identical 7075-byte signatures
+- lower-layer w=4 saves 2112 bytes of serialized secret-key state
+  relative to upper-layer w=4
+
+Height-allocation result:
+- signature size is invariant to height allocation for a fixed WOTS pair
+- serialized secret-key size decreases as lower-layer height h0 decreases
+- relative to (10,10), h0=6 saves 480 bytes
+- relative to (10,10), h0=14 adds 480 bytes
+- latency trade-offs remain configuration-dependent
+
+Methodological note:
+The 20-cell analysis combines frozen authoritative measurements from
+the HEIGHT, WOTS, and JOINT experimental phases. Source-phase provenance
+is retained in the normalized dataset. The combined analysis is therefore
+treated as an empirical Pareto comparison of frozen datasets rather than
+as a single-session fully matched factorial experiment.
+
+STAGE7L_JOINT_ANALYSIS=PASS
