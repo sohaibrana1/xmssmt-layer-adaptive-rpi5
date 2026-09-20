@@ -1,0 +1,4 @@
+configuration,strict,epsilon_2pct,epsilon_5pct,epsilon_10pct,sign_mean_ms,sign_p95_ms,signature_bytes,secret_key_bytes
+H6-14_W16-16,YES,YES,YES,YES,8.482,13.266,4963,5518
+H6-14_W4-16,YES,YES,YES,YES,4.623,7.233,7075,5518
+H6-14_W4-4,YES,NO,NO,NO,4.599,7.247,9187,7630

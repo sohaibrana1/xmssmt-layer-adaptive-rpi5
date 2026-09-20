@@ -1,0 +1,180 @@
+ANALYTICAL MODEL SUMMARY
+========================
+
+Experiment:
+Two-layer heterogeneous XMSSMT
+H = 20
+d = 2
+n = 32 bytes
+BDS k = 0
+
+1. WOTS PARAMETERS
+------------------
+
+For w = 4:
+  log2(w) = 2
+  len1 = 128
+  len2 = 5
+  len = 133
+  WOTS signature bytes = 133 * 32 = 4256 B
+
+For w = 16:
+  log2(w) = 4
+  len1 = 64
+  len2 = 3
+  len = 67
+  WOTS signature bytes = 67 * 32 = 2144 B
+
+
+2. SERIALIZED BDS STATE
+-----------------------
+
+General implementation expression:
+
+S(h,k,n) =
+    (h+1)n
+  + 4
+  + (h+1)
+  + hn
+  + floor(h/2)n
+  + (h-k)(7+n)
+  + (2^k-k-1)n
+  + 4
+
+For n = 32, k = 0, and even h:
+
+S(h) = 120h + 41 bytes
+
+
+3. XMSSMT SERIALIZED SECRET-KEY STATE
+-------------------------------------
+
+For d = 2, the FAST implementation stores:
+
+  CURRENT_0
+  CURRENT_1
+  NEXT_0
+
+Therefore:
+
+SK =
+    index_bytes
+  + 4n
+  + 2*S(h0)
+  + S(h1)
+  + W1
+
+With:
+  index_bytes = ceil(20/8) = 3
+  n = 32
+  h0 + h1 = 20
+
+SK = 2654 + 120*h0 + W1
+
+If w1 = 16:
+
+SK = 4798 + 120*h0
+
+If w1 = 4:
+
+SK = 6910 + 120*h0
+
+Changing w1 from 16 to 4 adds:
+
+4256 - 2144 = 2112 B
+
+
+4. SIGNATURE SIZE
+-----------------
+
+SIG =
+    index_bytes
+  + n
+  + W0
+  + W1
+  + H*n
+
+For H = 20, n = 32, index_bytes = 3:
+
+SIG = 675 + W0 + W1
+
+Therefore:
+
+(w0,w1) = (16,16) -> 4963 B
+(w0,w1) = (4,16)  -> 7075 B
+(w0,w1) = (16,4)  -> 7075 B
+(w0,w1) = (4,4)   -> 9187 B
+
+Signature size is independent of ordered height allocation
+when h0+h1 remains fixed.
+
+
+5. BDS UPDATE STRUCTURE
+-----------------------
+
+Initial per-signature TreeHash update budget:
+
+U0 = (h0-k)/2
+
+Since k = 0:
+
+U0 = h0/2
+
+For tested h0 values:
+
+h0=6  -> U0=3
+h0=8  -> U0=4
+h0=10 -> U0=5
+h0=12 -> U0=6
+h0=14 -> U0=7
+
+
+6. ROLLOVER STRUCTURE
+---------------------
+
+Layer-0 rollover occurs every:
+
+2^h0 signatures
+
+At rollover:
+  CURRENT_0 <- NEXT_0
+  a fresh upper-layer WOTS signature is generated
+  traversal/update scheduling changes
+
+Hence rollover cost is a composition effect rather than
+a fixed additive penalty.
+
+
+7. EMPIRICAL WORKLOAD CALIBRATION
+---------------------------------
+
+Aggregate empirical model over 87,316 signing rows:
+
+cycles =
+    -157535.670691
+    + 1779.238487 * logical_hash_calls
+    + 56185.959693 * tree_nodes
+
+R^2 = 0.98802978
+Adjusted R^2 = 0.98802951
+Median absolute percentage error = 4.348135%
+P95 absolute percentage error = 6.757255%
+
+The coefficients are empirical Raspberry Pi 5 calibration
+parameters and are not universal primitive-operation costs.
+
+
+8. SIZE VALIDATION
+------------------
+
+Configurations checked: 20
+
+Signature formula:
+  20/20 exact
+  residual = 0 B for every configuration
+
+Secret-key formula:
+  20/20 exact
+  residual = 0 B for every configuration
+
+ANALYTICAL_MODEL_SUMMARY_GATE=PASS
