@@ -1,0 +1,1 @@
+usage: ./build/unified_fullcycle_benchmark CONFIG H0 H1 W0 W1 EXPECTED_SIG EXPECTED_SK OUTPUT.csv

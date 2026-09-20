@@ -1,0 +1,4 @@
+timestamp_end=2026-09-21T02:29:51,534647668+08:00
+run_rc=0
+throttled_end=throttled=0x0
+temperature_end=temp=56.5'C

@@ -1,0 +1,2 @@
+mkdir -p build
+cc -Isource_full -Ibenchmark -DNDEBUG -DXMSSMT -DFAST_IMPL -std=gnu11 -O3 -Wall -Wextra -Wpedantic benchmark/unified_fullcycle_benchmark.c source_full/fips202.c source_full/hash.c source_full/hash_address.c source_full/instrumentation.c source_full/params.c source_full/randombytes.c source_full/utils.c source_full/wots.c source_full/xmss.c source_full/xmss_commons.c source_full/xmss_core_fast.c -o build/unified_fullcycle_benchmark -lcrypto

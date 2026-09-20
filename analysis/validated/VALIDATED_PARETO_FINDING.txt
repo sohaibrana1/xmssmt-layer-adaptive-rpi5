@@ -1,0 +1,102 @@
+VALIDATED PARETO FINDING
+========================
+
+Input
+-----
+The analysis uses the validated 20-cell dataset:
+
+- h0 = 6, 8, 10, 12:
+  original full-cycle measurements.
+
+- h0 = 14:
+  pooled measurements from three independently randomized
+  validation repetitions.
+
+All objectives are minimized.
+
+Scenario A
+----------
+Objectives:
+  mean signing latency
+  P95 signing latency
+  signature size
+  serialized secret/state size
+
+Strict Pareto front: 3 configurations
+
+  H6-14_W16-16
+  H6-14_W4-16
+  H6-14_W4-4
+
+Scenario B
+----------
+Scenario A objectives plus:
+  mean key-generation latency
+
+Strict Pareto front: 10 configurations
+
+  H10-10_W16-16
+  H10-10_W16-4
+  H10-10_W4-16
+  H10-10_W4-4
+  H6-14_W16-16
+  H6-14_W4-16
+  H6-14_W4-4
+  H8-12_W16-16
+  H8-12_W4-16
+  H8-12_W4-4
+
+Scenario C
+----------
+Scenario B objectives plus:
+  mean verification latency
+
+Strict Pareto front: 12 configurations
+
+  H10-10_W16-16
+  H10-10_W16-4
+  H10-10_W4-16
+  H10-10_W4-4
+  H12-8_W4-4
+  H14-6_W4-16
+  H6-14_W16-16
+  H6-14_W4-16
+  H6-14_W4-4
+  H8-12_W16-16
+  H8-12_W4-16
+  H8-12_W4-4
+
+Robust-dominance sensitivity
+----------------------------
+For the margin-based sensitivity analysis, configuration A robustly
+dominates B at margin epsilon only when A improves every minimized
+objective by at least that margin:
+
+  A_m * (1 + epsilon) <= B_m
+
+for every objective m.
+
+Number of nondominated configurations:
+
+                  Strict   2%   5%   10%
+Scenario A           3     12   12    12
+Scenario B          10     16   16    16
+Scenario C          12     20   20    20
+
+Interpretation
+--------------
+The Pareto result depends materially on the deployment objectives.
+
+A signing-centric analysis yields a compact three-configuration front,
+but adding key-generation cost substantially expands the nondominated
+set. Adding verification cost expands it further.
+
+Under Scenario C, no configuration improves all six included objectives
+by at least 2% relative to another configuration. Consequently all
+20 configurations survive the 2%, 5%, and 10% robust-dominance
+sensitivity tests.
+
+These configurations represent trade-offs and must not be interpreted
+as an ordered ranking or as a single universally optimal parameter set.
+
+VALIDATED_PARETO_FINDING_GATE=PASS

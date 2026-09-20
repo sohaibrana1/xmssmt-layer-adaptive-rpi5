@@ -237,3 +237,26 @@ The release will contain:
 - reproducibility documentation
 
 The corresponding Zenodo DOI will be added after archival.
+
+## Reproducibility and validation update
+
+The complete reproducibility protocol, reconstructed build procedure,
+verification evidence, randomized `h0=14` validation, rollover
+reanalysis, mechanistic model, Pareto sensitivity analysis, and
+interpretation safeguards are documented in
+[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
+
+Key public evidence added in this update includes:
+
+- complete buildable source snapshot under `source_full/`;
+- benchmark harness and 20-cell matrix under `benchmark/`;
+- verification evidence for all 87,316 original full-cycle signatures;
+- three randomized repetitions of all four `h0=14` configurations,
+  comprising 196,620 additional signing and verification observations;
+- validated anomaly, rollover, mechanistic-model, and Pareto analyses
+  under `analysis/validated/`;
+- SHA-256 provenance manifests under `provenance/`.
+
+The heterogeneous XMSSMT configurations used in this study are
+experimental research configurations and are not standardized
+XMSS/XMSSMT parameter sets or standardized OIDs.

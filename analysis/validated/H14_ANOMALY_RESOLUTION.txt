@@ -1,0 +1,67 @@
+H14 ANOMALY RESOLUTION
+======================
+
+Original observation
+--------------------
+At h0=14, changing only upper-layer w1 from 16 to 4 produced:
+
+w0=16:
+  cycle delta = +10.0078%
+
+w0=4:
+  cycle delta = +10.3045%
+
+The corresponding logical-hash counts were essentially unchanged.
+
+Randomized validation
+---------------------
+Four h0=14 configurations were rerun in three independent randomized
+orders using the same unified runtime-configurable executable.
+
+Each cell used:
+  - 10 key generations
+  - 16,385 signatures
+  - 16,385 verifications
+  - 16,385 verification passes
+  - CPU 3
+  - performance governor
+  - CLOCK_MONOTONIC_RAW
+  - PMU cycle counting
+  - throttling gate = 0x0
+
+Unified executable SHA-256:
+
+fcc98259601c07540cce74b52850eb61ceaf6db9be49b83be223bc232730d83d
+
+Randomized w1=4 versus w1=16 cycle effects
+-----------------------------------------
+
+w0=16:
+  Repeat 01 = +0.1039%
+  Repeat 02 = -0.0569%
+  Repeat 03 = +1.0681%
+  Mean      = +0.372%
+
+w0=4:
+  Repeat 01 = +1.3330%
+  Repeat 02 = -0.1275%
+  Repeat 03 = +0.1956%
+  Mean      = +0.467%
+
+Interpretation
+--------------
+The approximately 10% effect observed in the original campaign was not
+reproduced under randomized repetition.
+
+The randomized measurements show no persistent approximately 10%
+upper-layer-w effect at h0=14. The remaining differences are small,
+change sign in some repetitions, and occur while mean logical work is
+essentially unchanged.
+
+Accordingly, the original approximately 10% difference should not be
+interpreted as an algorithmic consequence of changing w1.
+
+The randomized validation results will be retained as sensitivity and
+provenance evidence.
+
+H14_ANOMALY_RESOLUTION_GATE=PASS

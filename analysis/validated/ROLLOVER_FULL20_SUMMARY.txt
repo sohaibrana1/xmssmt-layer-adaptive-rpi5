@@ -1,0 +1,35 @@
+ROLLOVER FULL-20 ANALYSIS
+=========================
+
+Configurations: 20
+Rollover >= latency P95: 0
+Rollover >= cycle P95: 0
+Rollover = maximum latency: 0
+Rollover latency percentile range: 0.006% to 58.462%
+Rollover cycle percentile range: 0.006% to 58.462%
+
+Per-configuration rollover:
+H6-14_W4-4       roll=3.659112 ms rank=49.231% P95=7.246974 ms max=7.275833 ms max_idx=34
+H6-14_W4-16      roll=5.418019 ms rank=58.462% P95=7.232826 ms max=7.247648 ms max_idx=18
+H6-14_W16-4      roll=5.457407 ms rank=1.538% P95=13.107270 ms max=13.130371 ms max_idx=8
+H6-14_W16-16     roll=7.064296 ms rank=49.231% P95=13.266011 ms max=13.348649 ms max_idx=18
+H8-12_W4-4       roll=3.767204 ms rank=37.354% P95=8.581333 ms max=8.660129 ms max_idx=100
+H8-12_W4-16      roll=5.529111 ms rank=37.354% P95=8.675193 ms max=8.720926 ms max_idx=102
+H8-12_W16-4      roll=5.333833 ms rank=0.389% P95=15.496170 ms max=15.706425 ms max_idx=96
+H8-12_W16-16     roll=7.085815 ms rank=37.354% P95=15.468611 ms max=15.558796 ms max_idx=100
+H10-10_W4-4      roll=3.721963 ms rank=25.171% P95=9.931519 ms max=9.975740 ms max_idx=416
+H10-10_W4-16     roll=5.415925 ms rank=28.098% P95=9.946874 ms max=9.999370 ms max_idx=402
+H10-10_W16-4     roll=5.405149 ms rank=0.098% P95=17.873926 ms max=18.016037 ms max_idx=410
+H10-10_W16-16    roll=6.923500 ms rank=25.171% P95=17.912729 ms max=18.059703 ms max_idx=598
+H12-8_W4-4       roll=3.757426 ms rank=21.137% P95=11.240893 ms max=11.343815 ms max_idx=1590
+H12-8_W4-16      roll=5.279611 ms rank=24.213% P95=11.231504 ms max=11.415074 ms max_idx=3746
+H12-8_W16-4      roll=5.300037 ms rank=0.024% P95=20.282826 ms max=24.443056 ms max_idx=3654
+H12-8_W16-16     roll=7.007352 ms rank=21.137% P95=20.298981 ms max=45.239149 ms max_idx=1410
+H14-6_W4-4       roll=4.107444 ms rank=19.530% P95=13.926456 ms max=14.253889 ms max_idx=814
+H14-6_W4-16      roll=5.537389 ms rank=20.507% P95=12.618771 ms max=15.401871 ms max_idx=8221
+H14-6_W16-4      roll=6.052074 ms rank=0.006% P95=25.074119 ms max=25.405667 ms max_idx=6836
+H14-6_W16-16     roll=7.361111 ms rank=19.530% P95=22.774071 ms max=23.460944 ms max_idx=8134
+
+LATENCY_TAIL_GATE=PASS
+CYCLE_TAIL_GATE=PASS
+ROLLOVER_FULL20_ANALYSIS_GATE=PASS

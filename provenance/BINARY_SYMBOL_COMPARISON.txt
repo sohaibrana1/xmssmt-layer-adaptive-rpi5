@@ -1,0 +1,14 @@
+BINARY FUNCTION-SYMBOL SIZE COMPARISON
+======================================
+frozen_functions=76
+rebuilt_functions=76
+same_size_functions=76
+different_size_functions=0
+only_frozen=0
+only_rebuilt=0
+
+DIFFERENT SIZES
+
+ONLY FROZEN
+
+ONLY REBUILT

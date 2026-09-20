@@ -1,0 +1,82 @@
+RECONSTRUCTED BUILD PROVENANCE
+==============================
+
+Historical build-command status
+-------------------------------
+The exact historical compiler command was not preserved. The original
+UNIFIED_BUILD*.log files are empty.
+
+The reconstructed build therefore uses compilation settings preserved
+in the manuscript/build documentation:
+
+  -std=gnu11
+  -O3
+  -Wall
+  -Wextra
+  -Wpedantic
+  -DNDEBUG
+  -DXMSSMT
+  -DFAST_IMPL
+
+and links against:
+
+  libcrypto
+
+Verified historical executable
+------------------------------
+SHA-256:
+
+fcc98259601c07540cce74b52850eb61ceaf6db9be49b83be223bc232730d83d
+
+Compiler metadata:
+
+GCC 14.2.0
+
+Architecture:
+
+ELF 64-bit ARM aarch64 PIE
+
+Historical Build ID:
+
+50d7310a39bbd9ab7606cb3ed2ae08a0cf289412
+
+Reconstructed executable
+-------------------------
+The reconstructed Makefile builds successfully using GCC 14.2.0 and
+the preserved source snapshot.
+
+The rebuilt executable is not bit-for-bit identical to the historical
+benchmark executable.
+
+However:
+
+  frozen text size = 59834 bytes
+  rebuilt text size = 59834 bytes
+
+  frozen data size = 948 bytes
+  rebuilt data size = 948 bytes
+
+  frozen bss size = 1368 bytes
+  rebuilt bss size = 1368 bytes
+
+  .rodata identity = PASS
+
+Function-symbol comparison:
+
+  frozen functions = 76
+  rebuilt functions = 76
+  same-size functions = 76
+  different-size functions = 0
+  only in frozen = 0
+  only in rebuilt = 0
+
+Interpretation
+--------------
+The repository provides source/build/functional reproducibility from
+the exact measured source snapshot and preserved compilation settings.
+
+Bitwise and instruction-level identity with the historical executable
+are not claimed because the complete historical compiler invocation
+was not retained.
+
+RECONSTRUCTED_BUILD_PROVENANCE_GATE=PASS

@@ -1,0 +1,22 @@
+configuration=H14-6_W16-4
+timestamp_start=2026-09-21T01:05:19,483131312+08:00
+hostname=Computerpi
+kernel=6.18.34+rpt-rpi-2712
+architecture=aarch64
+gcc=gcc (Debian 14.2.0-19) 14.2.0
+perf=perf version 6.18.50
+cpu_affinity=3
+cpu_governor=performance
+cpu_min_khz=1500000
+cpu_max_khz=2400000
+timer=CLOCK_MONOTONIC_RAW
+throttled_start=throttled=0x0
+temperature_start=temp=58.2'C
+h0=14
+h1=6
+w0=16
+w1=4
+expected_signature_bytes=7075
+expected_public_key_bytes=64
+expected_secret_key_bytes=8590
+expected_sign_rows=16385

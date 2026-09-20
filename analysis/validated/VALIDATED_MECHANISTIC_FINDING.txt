@@ -1,0 +1,49 @@
+VALIDATED MECHANISTIC FINDING
+=============================
+
+The final model uses the original full-cycle measurements for h0 = 6, 8,
+10, and 12, and replaces the four anomalous h0 = 14 cells with pooled
+measurements from three independently randomized repetitions.
+
+Key-generation model
+--------------------
+T_KG = c + N4*L4 + N16*L16
+
+L4  = 1.342929 ms per leaf
+L16 = 2.402324 ms per leaf
+R^2 = 0.999932749
+
+FAST/BDS signing model
+----------------------
+T_sign = c(w0) + (h0/2)*L'(w0)
+
+For w0 = 4:
+  L'  = 1.324607 ms per leaf
+  R^2 = 0.999718961
+
+For w0 = 16:
+  L'  = 2.365887 ms per leaf
+  R^2 = 0.999732288
+
+Cross-operation agreement
+-------------------------
+Relative difference between signing slope and independently fitted
+key-generation leaf cost:
+
+w = 4:
+  -1.364%
+
+w = 16:
+  -1.517%
+
+Interpretation
+--------------
+The close agreement between the independently estimated key-generation
+leaf cost and the incremental signing cost supports the BDS update
+mechanism: increasing h0 by two levels increases the nominal per-signature
+TreeHash update budget by one leaf-generation unit.
+
+The result is empirical and platform-specific. It should not be interpreted
+as a universal primitive-operation cost.
+
+VALIDATED_MECHANISTIC_FINDING_GATE=PASS
