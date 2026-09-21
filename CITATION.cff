@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: "If you use this reproducibility package, please cite the associated manuscript and archived release."
 title: "Layer-Adaptive XMSSMT Parameterization on Raspberry Pi 5"
 type: software
+version: "jcen-submission-v1"
 authors:
   - family-names: "Rana"
     given-names: "Sohaib"
@@ -16,7 +17,7 @@ authors:
     given-names: "Adnan"
     affiliation: "Deakin University"
 repository-code: "https://github.com/sohaibrana1/xmssmt-layer-adaptive-rpi5"
-date-released: 2026-09-19
+date-released: 2026-09-21
 abstract: >-
   Reproducibility package for an empirical Raspberry Pi 5 study of
   layer-adaptive XMSSMT parameterization. The repository contains the

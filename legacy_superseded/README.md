@@ -8,3 +8,6 @@ JOINT_20CELL_NORMALIZED_OPERATIONS.csv and JOINT_20CELL_SOURCE_MAP.csv were
 replaced with relative paths before publication. The hashes recorded for those
 two files in STAGE7L_SHA256_MANIFEST.txt therefore refer to the pre-scrub
 versions.
+
+This folder also contains the analysis scripts, figures (FIGURE1-FIGURE4B), and
+LaTeX tables produced from that earlier campaign. None are used in the manuscript.

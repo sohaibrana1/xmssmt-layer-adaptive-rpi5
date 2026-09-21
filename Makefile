@@ -2,7 +2,7 @@
 #
 # The exact historical shell command was not retained in the original
 # build logs. The flags below are reconstructed from the preserved
-# manuscript/build documentation and verified binary metadata.
+# build documentation and verified binary metadata.
 #
 # Preserved application flags:
 #   -std=gnu11 -O3 -Wall -Wextra -Wpedantic
