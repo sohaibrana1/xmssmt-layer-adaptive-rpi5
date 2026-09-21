@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\caption{Randomized validation of the four $h_0=14$ configurations. Repeat columns report mean full-cycle signing latency in milliseconds for three independently randomized repetitions. Pooled statistics combine all three repetitions ($n=49{,}155$ signatures per configuration) and provide the $h_0=14$ inputs used by the modelling and Pareto analyses. The final column gives the original single-run mean for comparison.}
+\label{tab:h14_randomized_validation}
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Configuration & Repeat 1 & Repeat 2 & Repeat 3 & Pooled mean & Pooled P95 & Pooled cycles (M) & Original mean \\
+\midrule
+$(14,6,16,16)$ & 17.802 & 17.821 & 17.845 & 17.823 & 22.686 & 42.737 & 17.891 \\
+$(14,6,16,4)$ & 17.819 & 17.809 & 18.040 & 17.889 & 22.883 & 42.896 & 19.682 \\
+$(14,6,4,16)$ & 9.897 & 9.922 & 9.903 & 9.907 & 12.620 & 23.757 & 9.907 \\
+$(14,6,4,4)$ & 10.030 & 9.909 & 9.922 & 9.954 & 12.686 & 23.867 & 10.928 \\
+\bottomrule
+\end{tabular}
+\end{table*}

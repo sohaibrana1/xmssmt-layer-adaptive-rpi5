@@ -1,0 +1,35 @@
+\begin{table*}[t]
+\centering
+\caption{Pareto-front size under strict, relaxed, and margin-based
+dominance sensitivity for the three deployment objective scenarios.
+Scenario~A minimizes mean signing latency, P95 signing latency,
+signature size, and serialized state size; Scenario~B additionally
+includes mean key-generation latency; Scenario~C additionally includes
+mean verification latency. For relaxed dominance, a candidate may be
+within $(1+\epsilon)$ of another configuration in every objective while
+improving at least one objective by more than $(1-\epsilon)$. Margin
+dominance instead requires an improvement of at least $\epsilon$ in
+every included objective. All objectives are minimized.}
+\label{tab:pareto_robustness}
+\footnotesize
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+& & \multicolumn{3}{c}{Relaxed dominance}
+& \multicolumn{3}{c}{Margin dominance} \\
+\cmidrule(lr){3-5}
+\cmidrule(lr){6-8}
+Scenario
+& Strict
+& 2\% & 5\% & 10\%
+& 2\% & 5\% & 10\% \\
+\midrule
+A: Sign/P95/Sig./State
+& 3 & 2 & 2 & 2 & 12 & 12 & 12 \\
+B: A + Key generation
+& 10 & 9 & 9 & 9 & 16 & 16 & 16 \\
+C: B + Verification
+& 12 & 9 & 9 & 9 & 20 & 20 & 20 \\
+\bottomrule
+\end{tabular}
+\end{table*}

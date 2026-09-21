@@ -1,0 +1,39 @@
+\begin{table*}[t]
+\centering
+\caption{Full-cycle key-generation, signing, verification, rollover, and artifact-size results for the 20 heterogeneous XMSSMT configurations on Raspberry Pi~5. KeyGen reports mean latency $\pm$ sample SD in seconds ($n=10$ for the original campaign cells; $n=30$ for the pooled $h_0=14$ randomized validation cells). Signing mean, median, and P95 are computed over one complete lower-layer traversal cycle plus the first signature after rollover. For $h_0=14$, signing and verification statistics are pooled over three independently randomized full-cycle repetitions ($n=49{,}155$ per configuration), and Rollover $\Delta$ is the mean of the three neighbour-relative repeat deltas; the original single-run values are reported in Table~\ref{tab:h14_randomized_validation}. Serialized state includes traversal state and cached upper-layer WOTS signatures.}
+\label{tab:main_20cell_results}
+\scriptsize
+\setlength{\tabcolsep}{1.65pt}
+\begin{tabular}{@{}rrrrrrrrrrrrr@{}}
+\toprule
+$h_0$ & $h_1$ & $w_0$ & $w_1$ & KeyGen & \multicolumn{3}{c}{Sign latency (ms)} & Cycles & Verify & Rollover & Sig. & State \\
+\cmidrule(lr){6-8}
+& & & & (s) & Mean & Median & P95 & (M) & (ms) & $\Delta$ (\%) & (B) & (B) \\
+\midrule
+6 & 14 & 16 & 16 & $39.890\pm0.038$ & 8.482 & 7.064 & 13.266 & 20.339 & 2.607 & 18.33 & 4963 & 5518 \\
+6 & 14 & 16 & 4 & $22.102\pm0.010$ & 8.346 & 6.134 & 13.107 & 20.018 & 2.161 & -8.45 & 7075 & 7630 \\
+6 & 14 & 4 & 16 & $39.315\pm0.022$ & 4.623 & 4.528 & 7.233 & 11.087 & 2.242 & 68.99 & 7075 & 5518 \\
+6 & 14 & 4 & 4 & $22.097\pm0.005$ & 4.599 & 3.659 & 7.247 & 11.030 & 1.608 & 13.57 & 9187 & 7630 \\
+\addlinespace
+8 & 12 & 16 & 16 & $10.429\pm0.007$ & 10.674 & 12.957 & 15.469 & 25.598 & 2.549 & 20.44 & 4963 & 5758 \\
+8 & 12 & 16 & 4 & $6.099\pm0.003$ & 10.675 & 12.988 & 15.496 & 25.601 & 2.123 & -9.33 & 7075 & 7870 \\
+8 & 12 & 4 & 16 & $10.259\pm0.002$ & 5.966 & 7.278 & 8.675 & 14.308 & 2.146 & 71.62 & 7075 & 5758 \\
+8 & 12 & 4 & 4 & $5.841\pm0.003$ & 5.892 & 7.189 & 8.581 & 14.129 & 1.707 & 17.83 & 9187 & 7870 \\
+\addlinespace
+10 & 10 & 16 & 16 & $4.888\pm0.001$ & 13.066 & 15.435 & 17.913 & 31.336 & 2.605 & 18.64 & 4963 & 5998 \\
+10 & 10 & 16 & 4 & $3.816\pm0.001$ & 13.030 & 15.389 & 17.874 & 31.249 & 2.168 & -6.57 & 7075 & 8110 \\
+10 & 10 & 4 & 16 & $3.818\pm0.001$ & 7.240 & 8.571 & 9.947 & 17.364 & 2.120 & 71.36 & 7075 & 5998 \\
+10 & 10 & 4 & 4 & $2.746\pm0.003$ & 7.227 & 8.555 & 9.932 & 17.332 & 1.674 & 16.97 & 9187 & 8110 \\
+\addlinespace
+12 & 8 & 16 & 16 & $10.399\pm0.008$ & 15.469 & 17.838 & 20.299 & 37.022 & 2.746 & 21.43 & 4963 & 6238 \\
+12 & 8 & 16 & 4 & $10.148\pm0.008$ & 15.430 & 17.826 & 20.283 & 36.996 & 2.153 & -10.94 & 7075 & 8350 \\
+12 & 8 & 4 & 16 & $6.090\pm0.002$ & 8.532 & 9.869 & 11.232 & 20.460 & 2.177 & 64.13 & 7075 & 6238 \\
+12 & 8 & 4 & 4 & $5.822\pm0.003$ & 8.541 & 9.882 & 11.241 & 20.482 & 1.649 & 17.54 & 9187 & 8350 \\
+\addlinespace
+14 & 6 & 16 & 16 & $39.277\pm0.053$ & 17.823 & 20.250 & 22.686 & 42.737 & 2.587 & 19.78 & 4963 & 6478 \\
+14 & 6 & 16 & 4 & $39.373\pm0.209$ & 17.889 & 20.326 & 22.883 & 42.896 & 2.157 & -8.99 & 7075 & 8590 \\
+14 & 6 & 4 & 16 & $22.127\pm0.019$ & 9.907 & 11.264 & 12.620 & 23.757 & 2.110 & 70.89 & 7075 & 6478 \\
+14 & 6 & 4 & 4 & $22.103\pm0.078$ & 9.954 & 11.296 & 12.686 & 23.867 & 1.672 & 18.61 & 9187 & 8590 \\
+\bottomrule
+\end{tabular}
+\end{table*}

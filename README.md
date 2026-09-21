@@ -155,18 +155,19 @@ Relative to the balanced (10,10) allocation, serialized state changed by:
 - (6,14): -480 B
 - (14,6): +480 B
 
-The five-objective empirical Pareto analysis identified:
+The validated multi-objective analysis uses three deployment scenarios.
 
-- 13 nondominated configurations
-- 7 dominated configurations
+- Scenario A minimizes mean signing latency, P95 signing latency, signature size, and serialized state; its strict Pareto front contains 3 configurations.
+- Scenario B additionally includes mean key-generation latency; its strict Pareto front contains 10 configurations.
+- Scenario C additionally includes mean verification latency; its strict Pareto front contains 12 configurations.
 
-among the 20 evaluated configurations.
+Relaxed- and margin-dominance analyses at 2%, 5%, and 10% are provided as sensitivity analyses rather than replacements for the strict Pareto front.
 
 ## Methodological note
 
-The combined 20-configuration analysis reuses measurements from frozen HEIGHT, WOTS, and JOINT experimental phases.
+The original benchmark campaign is a unified matched 20-configuration full-cycle experiment. Each configuration covers one complete lower-layer signing cycle plus the first signature after rollover.
 
-It should therefore be interpreted as an empirical comparison and multi-objective analysis of frozen datasets rather than as a single-session matched full-factorial experiment.
+For the four h0 = 14 configurations, three independently randomized full-cycle repetitions were subsequently performed. Publication-level modelling and Pareto inputs retain the original unified measurements for h0 in {6,8,10,12} and use the pooled randomized validation measurements for h0 = 14. This replacement is explicitly identified in the validated analysis artifacts.
 
 ## Experimental integrity
 

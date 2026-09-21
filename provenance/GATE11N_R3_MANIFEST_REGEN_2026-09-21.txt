@@ -1,0 +1,5 @@
+GATE11N_R3_MANIFEST_REGEN_APPLIED=YES
+Manifest dependency normalized to:
+SHA256_GITHUB_PACKAGE.csv -> no root-manifest entry
+SHA256_REPOSITORY_MANIFEST.txt -> includes SHA256_GITHUB_PACKAGE.csv
+No Git commit was created by this gate.

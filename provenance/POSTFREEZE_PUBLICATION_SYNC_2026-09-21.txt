@@ -1,0 +1,5 @@
+GATE11N_R1_POSTFREEZE_PUBLICATION_SYNC_APPLIED=YES
+The immutable GITHUB_PREFINAL_FREEZE_2026-09-21 was not modified.
+The manuscript source/PDF were intentionally not copied into this
+repository update because the manuscript will cite the resulting
+repository commit hash.

@@ -215,39 +215,69 @@ Scenario A includes:
 - mean signing latency
 - P95 signing latency
 - signature size
-- serialized secret/state size
+- serialized state
 
-Strict nondominated configurations: 3.
+Scenario B adds:
 
-Scenario B adds mean key-generation latency.
+- mean key-generation latency
 
-Strict nondominated configurations: 10.
+Scenario C additionally adds:
 
-Scenario C additionally adds mean verification latency.
+- mean verification latency
 
-Strict nondominated configurations: 12.
+The strict Pareto fronts contain:
 
-Under the all-objective robust-dominance sensitivity rule:
+| Scenario | Strict nondominated |
+|---|---:|
+| A | 3 |
+| B | 10 |
+| C | 12 |
 
-    A_m * (1 + epsilon) <= B_m
+Two complementary epsilon-sensitivity definitions are reported.
 
-for every objective m, the number of nondominated configurations is:
+### Relaxed dominance
 
-| Scenario | Strict | 2% | 5% | 10% |
+Configuration A relaxed-dominates B at tolerance epsilon when every objective satisfies
+
+    A_m <= B_m * (1 + epsilon)
+
+and at least one objective satisfies
+
+    A_m < B_m * (1 - epsilon).
+
+The resulting nondominated counts are:
+
+| Scenario | Strict | Relaxed 2% | Relaxed 5% | Relaxed 10% |
+|---|---:|---:|---:|---:|
+| A | 3 | 2 | 2 | 2 |
+| B | 10 | 9 | 9 | 9 |
+| C | 12 | 9 | 9 | 9 |
+
+### Margin dominance
+
+Configuration A margin-dominates B at tolerance epsilon when every objective satisfies
+
+    A_m * (1 + epsilon) <= B_m.
+
+The resulting nondominated counts are:
+
+| Scenario | Strict | Margin 2% | Margin 5% | Margin 10% |
 |---|---:|---:|---:|---:|
 | A | 3 | 12 | 12 | 12 |
 | B | 10 | 16 | 16 | 16 |
 | C | 12 | 20 | 20 | 20 |
 
-These sets represent deployment trade-offs. They are not rankings and
-no configuration is described as universally optimal.
+The strict front is the primary deployment trade-off result. Relaxed and margin definitions are reported as complementary robustness bounds.
+
+Publication-level Pareto inputs use the original unified full-cycle measurements for h0 in {6,8,10,12} and the pooled three-repeat randomized validation measurements for h0 = 14.
 
 Relevant files:
 
     analysis/validated/PARETO_VALIDATED_20CELL_INPUT.csv
     analysis/validated/PARETO_VALIDATED_MEMBERSHIP.csv
-    analysis/validated/PARETO_VALIDATED_SUMMARY.txt
-    analysis/validated/VALIDATED_PARETO_FINDING.txt
+    analysis/validated/PARETO_BIDIRECTIONAL_ROBUSTNESS.csv
+    analysis/publication/PARETO_FIGURE_DATA.csv
+
 
 ## 9. Build reproduction
 
