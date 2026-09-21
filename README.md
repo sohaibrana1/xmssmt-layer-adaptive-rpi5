@@ -4,260 +4,89 @@ Reproducibility materials for the manuscript:
 
 **Layer-Adaptive XMSSMT Parameterization: A Multi-Objective Study of WOTS Placement, Tree-Height Allocation, and Serialized State**
 
-Author: Sohaib Rana  
-Affiliation: Universiti Sains Malaysia, Penang, Malaysia
+Sohaib Rana, Mohd Najwadi Yusoff, Je Sen Teh, and Adnan Anwar
+(Universiti Sains Malaysia; Deakin University)
+
+The version cited in the manuscript is tag `jcen-submission-v1`.
 
 ## Study scope
 
-This study evaluates layer-adaptive parameterization of a two-layer XMSSMT FAST/BDS implementation.
+The study evaluates ordered layer-specific tree-height and WOTS+ parameterization in a two-layer XMSSMT FAST/BDS implementation with total height H = 20, d = 2, n = 32, and BDS parameter k = 0.
 
-The total XMSSMT tree height is fixed at:
+- Height allocations (h0, h1): (6,14), (8,12), (10,10), (12,8), (14,6)
+- Ordered WOTS+ placements (w0, w1): (16,16), (16,4), (4,16), (4,4)
 
-- H = 20
-- d = 2
+Layer 0 is the lower (message-signing) layer. The Cartesian product gives 20 experimental configurations. These are research configurations only; they are not standardized XMSSMT parameter sets and have no standardized OIDs.
 
-### WOTS placement block
+## Measurement protocol
 
-Four ordered WOTS+ allocations are evaluated:
+All 20 configurations use one matched full-cycle protocol on a Raspberry Pi 5 (BCM2712, Cortex-A76, 2.4 GHz, performance governor, process pinned to CPU 3, `CLOCK_MONOTONIC_RAW`, per-operation hardware cycles via `perf_event_open()`):
 
-- (16,16)
-- (4,16)
-- (16,4)
-- (4,4)
+- 10 key generations per configuration;
+- signing over one complete lower-layer traversal cycle plus the first signature after rollover (2^h0 + 1 signatures; 87,316 in total);
+- every signature verified immediately (87,316 verifications, 0 failures);
+- per-operation logical-work counters (PRF, F, H, message-hash invocations, tree nodes).
 
-The configurations are used to evaluate the effect of layer-specific Winternitz placement on:
+The four h0 = 14 configurations were additionally repeated three times in independently randomized order (196,620 further signing and verification operations, 0 verification failures). Configuration-level modelling and Pareto analyses use the pooled randomized measurements for h0 = 14.
 
-- key-generation latency
-- signing latency
-- verification latency
-- signature size
-- serialized secret-key size
+Full details: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
 
-### Tree-height allocation block
+## Main results
 
-Five ordered layer-height allocations are evaluated:
+- **Lower-layer WOTS placement dominates routine signing cost.** With w1 = 16, changing w0 from 16 to 4 reduces mean full-cycle signing latency by approximately 44–46% at every height allocation. (4,16) and (16,4) produce identical 7075-byte signatures.
+- **Artifact sizes follow exact formulas**, reproduced with zero-byte residuals for all 20 configurations:
+  - signature: |σ| = 675 + W0 + W1 bytes
+  - serialized state: |SK| = 2654 + 120·h0 + W1 bytes
 
-- (10,10)
-- (8,12)
-- (12,8)
-- (6,14)
-- (14,6)
+  where W = 4256 B for w = 4 and 2144 B for w = 16. The serialized state includes the cached upper-layer WOTS signature, which is public material.
+- **Rollover is never a tail-latency event.** In all 20 configurations and all 12 randomized h0 = 14 reruns, the rollover signature is below the configuration's P95 and is never the maximum-latency signature.
+- **A single per-leaf cost explains key generation and signing.** Leaf costs fitted independently from key generation and from the slope of signing versus h0 agree within 1.6% (w = 4: 1.343 vs 1.325 ms/leaf; w = 16: 2.402 vs 2.366 ms/leaf).
+- **Cycles per logical hash are nearly constant**: 1706.7–1745.9 cycles per logical-hash invocation across all 20 configurations.
+- **Pareto analysis** (strict / relaxed ε / margin ε, ε ∈ {2, 5, 10}%): Scenario A (mean sign, P95 sign, signature, state) 3 / 2 / 12; Scenario B (+ key generation) 10 / 9 / 16; Scenario C (+ verification) 12 / 9 / 20. Under relaxed dominance, (6,14,4,16) and (6,14,16,16) remain on the Scenario A front.
 
-All allocations satisfy:
-
-- h0 + h1 = 20
-
-### Joint parameter space
-
-The five height allocations are combined with the four ordered WOTS+ allocations, producing a 20-configuration empirical design space.
-
-The evaluated heterogeneous configurations are experimental implementation-level parameterizations.
-
-They are not standardized XMSSMT parameter sets and are not assigned standardized OIDs.
-
-## Platform
-
-Measurements were collected on:
-
-- Raspberry Pi 5 Model B Rev. 1.1
-- Broadcom BCM2712
-- quad-core Arm Cortex-A76
-- AArch64
-- approximately 8 GB RAM
-- Debian GNU/Linux 13 (trixie)
-- GCC 14.2.0
-- performance CPU-frequency governor
-- benchmark process pinned to CPU 3
-- CLOCK_MONOTONIC_RAW timing source
-- boost disabled during controlled benchmarking
-
-Standard benchmark protocol:
-
-- 10 key generations
-- 100 signatures
-- 100 verifications
-- 3 warm-up key generations
-- 100 warm-up signatures
+An approximately 10% upper-layer effect seen in the original single run at h0 = 14 was not reproduced by the randomized repetitions and is not interpreted as an algorithmic effect (see `analysis/validated/H14_ANOMALY_RESOLUTION.txt`).
 
 ## Repository structure
 
-- `analysis/` - publication-level analysis scripts
-- `data/processed/` - normalized operation-level and summary datasets
-- `data/provenance/` - source mapping and normalization provenance
-- `build_metadata/` - build, platform, and source-provenance records
-- `figures/` - publication figures
-- `integrity/` - analysis closure and integrity records
-- `manifests/` - SHA-256 manifests
-- `manuscript/` - reference manuscript PDF
-- `source_xmssmt/` - validated XMSSMT source modifications
-- `supplementary/` - manuscript supplementary material
-- `docs/` - reproducibility documentation
-- `releases/` - frozen reproducibility releases
+| Path | Contents |
+|---|---|
+| `source_full/` | Complete buildable XMSSMT source snapshot used for the measurements |
+| `source_xmssmt/` | The modified heterogeneous source files (`heterogeneous/` holds the verified snapshot with its license) |
+| `benchmark/` | Full-cycle benchmark harness, run script, and 20-configuration matrix |
+| `Makefile` | Reconstructed build (see REPRODUCIBILITY.md §9) |
+| `data/` | `ALL_20CELL_SIGNING_ROWS.csv` (per-signature rows), `UNIFIED_20CELL_OPERATION_STATISTICS.csv` (per-configuration statistics), `verification/`, and raw randomized h0 = 14 runs in `validation_h14/` |
+| `analysis/` | Aggregate workload model and analytical size model outputs |
+| `analysis/validated/` | Validated h0 = 14, rollover, mechanistic-model, keygen, and Pareto analyses |
+| `analysis/publication/` | Figure data and the figure-generation script |
+| `tables/` | Publication tables (LaTeX and CSV) |
+| `figures/` | Publication figures |
+| `provenance/` | SHA-256 provenance records, build provenance, OpenSSL backend record, randomized-run logs |
+| `legacy_superseded/` | Data, scripts, figures, and tables from an earlier exploratory campaign with a different signing-window protocol; superseded and **not used** in the manuscript |
+| `SHA256_REPOSITORY_MANIFEST.txt` | SHA-256 of every tracked file |
 
-## Source provenance
+## Reproducing
 
-### Heterogeneous XMSSMT source
+```bash
+make clean && make info && make
+# executable: build/unified_fullcycle_benchmark
+# interface:  CONFIG H0 H1 W0 W1 EXPECTED_SIG EXPECTED_SK OUTPUT.csv
+# full matrix: benchmark/run_unified_20cell.sh with benchmark/UNIFIED_20CELL_MATRIX.csv
+```
 
-Validated modified source files are provided under:
+The reconstructed build reproduces the source-level and functional workflow but is not claimed to be bitwise identical to the historical benchmark binary (see `provenance/RECONSTRUCTED_BUILD_PROVENANCE.txt`).
 
-`source_xmssmt/heterogeneous/`
+Integrity check:
 
-The source snapshot contains:
+```bash
+sha256sum -c --quiet SHA256_REPOSITORY_MANIFEST.txt && echo OK
+```
 
-- `params.h`
-- `params.c`
-- `xmss_core_fast.c`
-- `xmss_commons.c`
-- `LICENSE`
-- `README.md`
-- `SHA256_SOURCE_MANIFEST.txt`
+## Interpretation notes
 
-The four modified C/H files were copied from the validated correctness freeze:
+- Logical-hash counts are XMSS/XMSSMT-level invocations, not SHA-256 compression-function calls.
+- Fitted model coefficients are platform- and implementation-specific calibrations, not universal primitive costs.
+- Pareto sets describe deployment trade-offs, not a ranking or a universally optimal configuration.
 
-`08_height_heterogeneity/FINAL_CORRECTNESS_FREEZE/source_snapshot`
+## Licensing and citation
 
-Their SHA-256 values were independently verified before inclusion in this repository.
-
-### Experimental modifications
-
-The implementation supports:
-
-- independent per-layer XMSSMT tree heights
-- independent per-layer WOTS+ Winternitz parameters
-- asymmetric FAST/BDS traversal-state handling
-- serialized secret-key state accounting
-- lower-layer rollover validation
-
-For the two-layer FAST implementation, serialized BDS state contains:
-
-- current state for layer 0
-- current state for layer 1
-- next state for layer 0
-
-No next-state structure is required for the top layer.
-
-## Main empirical findings
-
-For configurations with identical 7075-byte signatures, placing w=4 in the lower layer rather than the upper layer reduced mean signing latency by approximately:
-
-- 40.83% to 45.09%
-
-The same placement reduced serialized secret-key state by:
-
-- 2112 bytes
-
-for every tested height allocation.
-
-Relative to the balanced (10,10) allocation, serialized state changed by:
-
-- (8,12): -240 B
-- (12,8): +240 B
-- (6,14): -480 B
-- (14,6): +480 B
-
-The validated multi-objective analysis uses three deployment scenarios.
-
-- Scenario A minimizes mean signing latency, P95 signing latency, signature size, and serialized state; its strict Pareto front contains 3 configurations.
-- Scenario B additionally includes mean key-generation latency; its strict Pareto front contains 10 configurations.
-- Scenario C additionally includes mean verification latency; its strict Pareto front contains 12 configurations.
-
-Relaxed- and margin-dominance analyses at 2%, 5%, and 10% are provided as sensitivity analyses rather than replacements for the strict Pareto front.
-
-## Methodological note
-
-The original benchmark campaign is a unified matched 20-configuration full-cycle experiment. Each configuration covers one complete lower-layer signing cycle plus the first signature after rollover.
-
-For the four h0 = 14 configurations, three independently randomized full-cycle repetitions were subsequently performed. Publication-level modelling and Pareto inputs retain the original unified measurements for h0 in {6,8,10,12} and use the pooled randomized validation measurements for h0 = 14. This replacement is explicitly identified in the validated analysis artifacts.
-
-## Experimental integrity
-
-This repository is a derived reproducibility copy created from frozen experimental artifacts.
-
-The authoritative benchmark, correctness, source, and analysis freeze directories were not modified during preparation of this repository.
-
-The Stage 7L joint-analysis freeze passed SHA-256 integrity verification.
-
-Stage 7L manifest SHA-256:
-
-`9a4e19dff91be39cfdff5b5cb0a163d6c90b2b625f5ff603b7a00d3f749ae07a`
-
-## Licensing
-
-The repository contains source code and research artifacts with potentially different licensing and attribution requirements.
-
-The original source license is preserved under:
-
-`source_xmssmt/heterogeneous/LICENSE`
-
-See `LICENSES.md` for repository-level licensing and attribution information.
-
-## Citation
-
-Citation metadata are provided in:
-
-`CITATION.cff`
-
-Repository:
-
-https://github.com/sohaibrana1/xmssmt-layer-adaptive-rpi5
-
-## Supplementary material
-
-The journal supplementary package contains:
-
-- processed operation-level benchmark data
-- summary datasets
-- Pareto-analysis outputs
-- WOTS-placement analysis
-- tree-height allocation analysis
-- normalization provenance
-- analysis scripts
-- SHA-256 integrity records
-
-## Data archive
-
-A permanent archival DOI will be added after creation of the frozen public reproducibility release.
-
-Until then, this GitHub repository serves as the reproducibility repository associated with the manuscript.
-
-## Release
-
-The first frozen public reproducibility release will be tagged:
-
-`v1.0.0`
-
-The release will contain:
-
-- validated heterogeneous XMSSMT source
-- processed benchmark datasets
-- analysis scripts
-- provenance records
-- publication figures
-- supplementary material
-- SHA-256 integrity manifests
-- reproducibility documentation
-
-The corresponding Zenodo DOI will be added after archival.
-
-## Reproducibility and validation update
-
-The complete reproducibility protocol, reconstructed build procedure,
-verification evidence, randomized `h0=14` validation, rollover
-reanalysis, mechanistic model, Pareto sensitivity analysis, and
-interpretation safeguards are documented in
-[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
-
-Key public evidence added in this update includes:
-
-- complete buildable source snapshot under `source_full/`;
-- benchmark harness and 20-cell matrix under `benchmark/`;
-- verification evidence for all 87,316 original full-cycle signatures;
-- three randomized repetitions of all four `h0=14` configurations,
-  comprising 196,620 additional signing and verification observations;
-- validated anomaly, rollover, mechanistic-model, and Pareto analyses
-  under `analysis/validated/`;
-- SHA-256 provenance manifests under `provenance/`.
-
-The heterogeneous XMSSMT configurations used in this study are
-experimental research configurations and are not standardized
-XMSS/XMSSMT parameter sets or standardized OIDs.
+The original source license is preserved in `source_xmssmt/heterogeneous/LICENSE`; see `LICENSES.md` for repository-level licensing. Citation metadata are in `CITATION.cff`.
